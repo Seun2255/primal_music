@@ -36,8 +36,8 @@
 
 .item__name {
   font-size: 20px;
-  color: blueviolet;
-  margin-bottom: 3px;
+  color: #8a2be2;
+  margin-bottom: 0px;
   align-self: flex-start;
 }
 
@@ -48,6 +48,12 @@
   padding: 4px;
   font-size: 20px;
   height: 2em;
+}
+
+.warning {
+  font-size: 14px;
+  color: red;
+  margin-top: 3px;
 }
 
 .item__input:focus {
