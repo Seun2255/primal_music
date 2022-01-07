@@ -23,6 +23,7 @@ const login: NextPage = (props) => {
           <p className={style.item__name}>Password</p>
           <input
             className={style.item__input}
+            type="password"
             onChange={(e) => setPassword(e.target.value)}
           ></input>
         </div>
