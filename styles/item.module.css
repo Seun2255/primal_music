@@ -1,0 +1,29 @@
+.outer {
+  width: 120px;
+  height: 160px;
+  background-image: linear-gradient(to bottom white, grey);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0px 20px 0px;
+}
+
+.outer:hover {
+  border: 1px solid blueviolet;
+}
+
+.img {
+  width: 80px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  font-size: 21px;
+  color: white;
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
+.body {
+  height: 10%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Open Sans", sans-serif;
+}
+
+.left {
+  color: #8a2be2;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.right {
+  width: 40%;
+}
+
+.navItems {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.down__menu {
+  position: absolute;
+  top: 0%;
+  background-color: grey !important;
+  color: #8a2be2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0%;
+  padding: 0%;
+  padding-top: 30px;
+}
+
+.divide {
+  color: white;
+  width: 80%;
+  height: 2px;
+  margin: 0%;
+  padding: 0%;
+  margin-bottom: 10px;
+}
+
+.menu__obj {
+  font-size: 22px;
+  font-weight: 500;
+  background-color: grey;
+  margin: 0%;
+  padding: 0%;
+  cursor: pointer;
+}
+
+.menu__obj a {
+  font-size: 22px;
+  font-weight: 500;
+  background-color: grey;
+  margin: 0%;
+  padding: 0%;
+  cursor: pointer;
+  color: #8a2be2;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+}
