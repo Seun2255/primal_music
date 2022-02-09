@@ -29,7 +29,11 @@
 
 .info {
   width: 100%;
-  background-image: radial-gradient(rgb(211, 172, 246), blueviolet);
+  background-image: linear-gradient(
+    to bottom rgb(211, 172, 246),
+    blueviolet,
+    rgb(211, 172, 246)
+  );
   color: white;
 }
 

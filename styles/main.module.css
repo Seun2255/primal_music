@@ -5,13 +5,15 @@
 
 .navbar {
   font-size: 21px;
-  height: 1.5em;
+  height: 2em;
   width: 100%;
   background-color: blueviolet;
   color: white;
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
+  align-items: center;
+  position: sticky;
 }
 
 .org {
@@ -23,21 +25,30 @@
   display: flex;
   justify-content: space-between;
   height: 21px;
-  width: 100px;
+  width: 200px;
 }
 
 .search__input {
   border-radius: 50vh;
   font-size: 16px;
   height: 100%;
-  width: 80%;
+  width: 85%;
+  overflow-x: auto;
+}
+
+.search__input:focus {
+  outline: none;
 }
 
 .search__button {
   height: 100%;
   width: 10%;
   border-radius: 50%;
-  background-color: palevioletred;
+  background-color: rgb(71, 0, 138);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .song__section {
@@ -62,4 +73,30 @@
   border-top: 2px solid blueviolet;
   border-bottom: 2px solid blueviolet;
   overflow-x: scroll;
+  display: flex;
+  scrollbar-width: 5px;
+}
+
+.items__container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.items__container::-webkit-scrollbar-button {
+  display: none;
+}
+
+.items__container::-webkit-scrollbar-thumb {
+  background: blueviolet;
+}
+
+.items__container::-webkit-scrollbar-track {
+  background: rgb(212, 171, 250);
+}
+
+.loader {
+  width: 100%;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

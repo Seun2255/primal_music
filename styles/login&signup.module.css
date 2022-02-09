@@ -72,3 +72,13 @@
   color: white;
   border-color: white;
 }
+
+.no__account {
+  color: black;
+  font-size: 14px;
+}
+
+.signup {
+  font-size: 16px;
+  color: blueviolet;
+}

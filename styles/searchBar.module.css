@@ -16,9 +16,14 @@
   border-radius: 50vh;
   border: 2px solid blueviolet;
   font-size: 21px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
 }
 
 .search__input:focus {
+  outline: none;
+  color: blueviolet;
 }
 
 .search__button {
