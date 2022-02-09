@@ -8,6 +8,7 @@ import { ThemeProvider, Button } from "@mui/material";
 import theme from "../components/theme";
 import temp from "../assets/temp-pic.jpeg";
 import SearchBar from "../components/searchBar";
+import { Bars } from "react-loader-spinner";
 
 const Home: NextPage = (props) => {
   return (
@@ -23,6 +24,7 @@ const Home: NextPage = (props) => {
             your local Primal playlist and then have fun sending this playlist
             to your friends with a single click.
           </div>
+          <Bars color="#8a2be2" height={140} width={140} />
           <Button variant="contained" style={{ fontSize: 24 }}>
             <Link href={"/signup"}>Sign up</Link>
           </Button>

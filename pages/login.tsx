@@ -35,6 +35,9 @@ const login: NextPage = (props) => {
           Login
         </button>
       </div>
+      <p className={style.no__account}>
+        Don't have an account? <span className={style.signup}>Sign up</span>
+      </p>
     </div>
   );
 };
