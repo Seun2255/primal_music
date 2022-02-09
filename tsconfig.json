@@ -21,7 +21,8 @@
     "**/*.tsx",
     "components/searchItem.js",
     "components/searchBar.js",
-    "pages/api/functions.js"
+    "pages/api/deezerAPI.js",
+    "node_modules/react-js-loader/index.d.ts"
   ],
   "exclude": ["node_modules"]
 }
