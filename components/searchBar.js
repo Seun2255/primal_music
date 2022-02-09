@@ -1,40 +1,31 @@
 import React, { useState } from "react";
 import style from "../styles/searchBar.module.css";
-import { Button, TextField } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import SearchItem from "./searchItem";
-import search from "../pages/api/functions";
+import search from "../pages/api/deezerAPI";
 
 function SearchBar(props) {
   const [input, setInput] = useState("");
   const [result, setResult] = useState(false);
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
 
   return (
     <div className={style.outer}>
       <div className={style.search__box}>
-        <TextField
-          variant="outlined"
+        <input
+          type="search"
+          placeholder="Search"
+          className={style.search__input}
           onChange={(e) => {
             setInput(e.target.value);
             if (input === "") {
               setResult(false);
             }
           }}
-          placeholder="Search"
-          style={{
-            width: "85%",
-            height: "100%",
-            borderRadius: "50vh",
-          }}
         />
-        <Button
-          style={{
-            width: "10%",
-            height: "100%",
-          }}
+        <button
+          className={style.search__button}
           onClick={() => {
-            console.log(search(input));
             setData(search(input));
             if (input !== "") {
               setResult(true);
@@ -42,9 +33,15 @@ function SearchBar(props) {
           }}
         >
           search
-        </Button>
+        </button>
       </div>
-      {result && <div className={style.search__results}></div>}
+      {result && (
+        <div className={style.search__results}>
+          {data.map((item) => {
+            <SearchItem song={item.title_short} artist={item.artist.name} />;
+          })}
+        </div>
+      )}
     </div>
   );
 }

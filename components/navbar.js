@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import style from "./styles/navbar.module.css";
+import style from "../styles/navbar.module.css";
 import { Grid, Button, Typography } from "@mui/material";
 import { Menu, Close } from "@mui/icons-material";
 import Link from "next/link";
 
-const mediaQuery = window.matchMedia("(max-width: 600px)");
-const menuIcon = mediaQuery.matches;
+//const mediaQuery = window.matchMedia("(max-width: 600px)");
+// const menuIcon = mediaQuery.matches;
+const menuIcon = false;
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);

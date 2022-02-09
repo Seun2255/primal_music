@@ -3,12 +3,12 @@ import style from "../styles/item.module.css";
 import Image from "next/image";
 
 function Item(props) {
-  const { name, cover } = { props };
+  const { name, cover, onClick } = props;
 
   return (
-    <div className={style.outer}>
+    <div className={style.outer} onClick={() => onClick()}>
       <div className={style.img}>
-        <Image src={cover} alt="cover" />
+        {cover && <Image src={cover} alt="cover" layout="fill" />}
       </div>
       <p className={style.text}>{name}</p>
     </div>
