@@ -6,6 +6,9 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import { useRouter } from "next/router";
+
+const router = useRouter();
 
 const firebaseConfig = {
   apiKey: "AIzaSyAo1lwHYJ1SZoLMPq5j6kFjQ9KjBO2bf6s",
@@ -30,6 +33,7 @@ export const addUser = async (
       // Signed in
       const user = userCredential.user;
       console.log(user);
+      router.push("/main");
       setDoc(doc(db, "users", email), {
         name: username,
         email: email,
@@ -41,6 +45,7 @@ export const addUser = async (
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, errorMessage);
+      alert("sign up failed, please try again");
     });
 };
 
@@ -52,13 +57,23 @@ export const loginUser = (email: string, password: string) => {
       const user = userCredential.user;
       console.log("logged in");
       console.log(user);
-      window.location.href = "http://localhost:3000/main";
+      router.push("/main");
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log("failed");
+      alert("Login failed, please try again");
     });
+};
+
+export const addToPlaylist = async (email: string, track: {}) => {
+  setDoc(doc(db, "playlists", email), {
+    track: track,
+    email: email,
+  })
+    .then(() => console.log("playlist added"))
+    .catch(() => console.log("Failed"));
 };
 
 export default app;
