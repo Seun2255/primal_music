@@ -82,3 +82,95 @@
   font-size: 16px;
   color: blueviolet;
 }
+
+@media (max-width: 600px) {
+  .outer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header {
+    font-size: 34px;
+    color: blueviolet;
+    background-color: white;
+    border: 3px solid blueviolet;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-weight: 500;
+    margin: 0%;
+    font-stretch: ultra-expanded;
+    position: relative;
+    bottom: -23px;
+    z-index: 2;
+  }
+
+  .container {
+    width: 90%;
+    border: 3px solid blueviolet;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+  }
+
+  .item__name {
+    font-size: 20px;
+    color: #8a2be2;
+    margin-bottom: 0px;
+    align-self: flex-start;
+    margin-top: 5px;
+  }
+
+  .item__input {
+    border: 2px solid grey;
+    border-radius: 5px;
+    width: 100%;
+    padding: 4px;
+    font-size: 20px;
+    height: 2em;
+  }
+
+  .warning {
+    font-size: 14px;
+    color: red;
+    margin-top: 3px;
+  }
+
+  .item__input:focus {
+    border: 3px solid blueviolet;
+    outline: none;
+  }
+
+  .button {
+    background-color: blueviolet;
+    border-radius: 5px;
+    font-size: 18px;
+    height: 2em;
+    padding: 0px 5px;
+    margin-top: 10px;
+    width: 6em;
+    color: white;
+    border-color: white;
+  }
+
+  .no__account {
+    color: black;
+    font-size: 14px;
+  }
+
+  .signup {
+    font-size: 16px;
+    color: blueviolet;
+  }
+}
