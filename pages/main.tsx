@@ -15,11 +15,11 @@ import search from "../assets/search.png";
 import { Bars } from "react-loader-spinner";
 import SearchItem from "../components/searchItem";
 
-// var currentUser: User | null;
-// var signedIn: boolean;
-// var name: string | null;
+var currentUser: User | null;
+var signedIn: boolean;
+var name: string | null;
 
-// const auth = getAuth(app);
+const auth = getAuth(app);
 
 const Main: NextPage = (props) => {
   const [loader, setLoader] = useState(false);
@@ -63,18 +63,18 @@ const Main: NextPage = (props) => {
     getData();
   }, []);
 
-  // const [user, setUser]: any = useState("Person");
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     console.log("Logged in");
-  //     currentUser = user;
-  //     setUser(currentUser.email);
-  //     signedIn = true;
-  //   } else {
-  //     console.log("Not logged in");
-  //     signedIn = false;
-  //   }
-  // });
+  const [user, setUser]: any = useState("Person");
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("Logged in");
+      currentUser = user;
+      setUser(currentUser.email);
+      signedIn = true;
+    } else {
+      console.log("Not logged in");
+      signedIn = false;
+    }
+  });
 
   return (
     <div className={style.outer}>
@@ -159,12 +159,29 @@ const Main: NextPage = (props) => {
             )}
           </div>
         </div>
-        <div className={style.list}>
-          <p className={style.list__name}>My Playlist</p>
-          <div className={style.items__container}>
-            {/*Item component goes here*/}
+        {playlist && (
+          <div className={style.list}>
+            <p className={style.list__name}>My Playlist</p>
+            <div className={style.items__container}>
+              {loader ? (
+                <div className={style.loader}>
+                  <Bars color="#8a2be2" height={140} width={140} />
+                </div>
+              ) : (
+                playlist.map((item: any, id: any) => {
+                  return (
+                    <Item
+                      name={item.title}
+                      cover={item.cover_big}
+                      key={id}
+                      onClick={() => displayAlbum(item)}
+                    />
+                  );
+                })
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       {showsong && (
         <SongView song={selectedSong} closeModal={() => setShowsong(false)} />
