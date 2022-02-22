@@ -1,40 +1,109 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "../styles/songView.module.css";
 import Image from "next/image";
-import play from "../assets/play.png";
-import pause from "../assets/pause.png";
 import cross from "../assets/cross.png";
+import { Button, ButtonGroup } from "@mui/material";
+import { AddSharp, PlayArrow, Pause } from "@mui/icons-material";
+import { Modal } from "react-responsive-modal";
 
 function SongView(props) {
-  const { song, closeModal } = props;
+  const { song, closeModal, addSong, page } = props;
   var whole = Math.trunc(song.duration / 60);
-  var deci = (song.duration / 60).toString().substring(2);
+  var deci = song.duration % 60;
+  if (deci < 10) deci = "0" + deci;
+  console.log(deci);
   const duration = whole + ":" + deci;
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [open, setOpen] = useState(false);
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
+
+  const togglePlay = () => {
+    var audioElement = document.getElementById("myAudio");
+    if (isPlaying) {
+      audioElement.pause();
+    } else {
+      audioElement.play();
+    }
+
+    setIsPlaying(!isPlaying);
+  };
 
   return (
     <div className={style.modal}>
+      <audio
+        id="myAudio"
+        src={song.preview}
+        preload="auto"
+        onEnded={() => setIsPlaying(false)}
+      />
       <div className={style.outer}>
         <div className={style.close__button}>
           <div className={style.white}></div>
-          <img
+          <Image
             src={cross}
             alt="close-button"
-            className={style.close}
-            onClick={() => closeModal()}
+            onClick={() => {
+              document.getElementById("myAudio").pause();
+              closeModal();
+            }}
+            layout="fill"
           />
         </div>
-        <div className={style.top}></div>
-        <div className={style.bottom}>
-          <div className={style.play__button}>
-            <Image width={30} height={30} src={play} />
+        <div className={style.top}>
+          <div className={style.album__cover}>
+            <Image src={song.album.cover_big} layout="fill" />
           </div>
+          <p className={style.album__name}>{song.title_short}</p>
+          <ButtonGroup size="small">
+            <Button
+              startIcon={
+                isPlaying ? (
+                  <Pause
+                    style={{ color: "#8a2be2", backgroundColor: "white" }}
+                  />
+                ) : (
+                  <PlayArrow
+                    style={{ color: "#8a2be2", backgroundColor: "white" }}
+                  />
+                )
+              }
+              variant="contained"
+              style={{
+                backgroundColor: "white",
+                color: "#8a2be2",
+              }}
+              onClick={() => togglePlay()}
+            >
+              {isPlaying ? "Pause" : "Play"}
+            </Button>
+            <Button
+              startIcon={
+                <AddSharp
+                  style={{ color: "#8a2be2", backgroundColor: "white" }}
+                />
+              }
+              variant="contained"
+              style={{
+                backgroundColor: "white",
+                color: "#8a2be2",
+              }}
+              onClick={() => {
+                page == "home" ? onOpenModal() : addSong();
+              }}
+            >
+              Add to Playlist
+            </Button>
+          </ButtonGroup>
+        </div>
+        <div className={style.bottom}>
           <div className={style.container}>
             <p className={style.property}>artist</p>
             <p className={style.info}>{song.artist.name}</p>
           </div>
           <div className={style.container}>
             <p className={style.property}>album</p>
-            <p className={style.info}>song.album.title</p>
+            <p className={style.info}>{song.album.title}</p>
           </div>
           <div className={style.container}>
             <p className={style.property}>duration</p>
@@ -46,6 +115,17 @@ function SongView(props) {
           </div>
         </div>
       </div>
+      <Modal
+        open={open}
+        onClose={onCloseModal}
+        center
+        classNames={{
+          overlay: style.customOverlay,
+          modal: style.customModal,
+        }}
+      >
+        <h2>Please login to use this feature</h2>
+      </Modal>
     </div>
   );
 }
