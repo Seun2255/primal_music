@@ -15,12 +15,6 @@
   background-color: rgb(206, 166, 243);
 }
 
-.title {
-  font-size: 30px;
-  font-weight: 500;
-  font-stretch: ultra-expanded;
-}
-
 .intro {
   width: 60%;
   font-size: 21px;
@@ -34,7 +28,7 @@
     blueviolet,
     rgb(211, 172, 246)
   );
-  color: white;
+  color: blueviolet;
 }
 
 .info__box {
@@ -61,6 +55,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .dividing__line {
@@ -105,4 +100,97 @@
 }
 
 @media (max-width: 600px) {
+  .top {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    color: blueviolet;
+    background-color: rgb(206, 166, 243);
+  }
+
+  .intro {
+    width: 90%;
+    font-size: 16px;
+    font-style: italic;
+  }
+
+  .info {
+    width: 100%;
+    background-image: linear-gradient(
+      to bottom rgb(211, 172, 246),
+      blueviolet,
+      rgb(211, 172, 246)
+    );
+    color: blueviolet;
+  }
+
+  .info__box {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .info__text {
+    width: 90%;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0%;
+    height: fit-content;
+  }
+
+  .info__pic {
+    width: 80%;
+    height: 40%;
+    box-shadow: 3px, 3px black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .divide {
+    color: white;
+    width: 100%;
+    height: 2px;
+  }
+
+  .footer {
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(to bottom, white, blueviolet);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .search__test {
+    width: 80%;
+    height: 10%;
+  }
+
+  .footer__title {
+    font-size: 56px;
+    font-weight: 700;
+    font-stretch: ultra-expanded;
+    color: blueviolet;
+  }
+
+  .logo {
+    font-size: 18px;
+    color: white;
+    font-style: italic;
+  }
+
+  #hidden__text {
+    display: none;
+  }
 }

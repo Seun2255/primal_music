@@ -21,11 +21,30 @@
   font-stretch: ultra-expanded;
 }
 
+.search__container {
+  display: flex;
+  flex-direction: column;
+}
+
+#focus {
+  border-radius: 10.5px;
+  border: 2px solid blueviolet;
+  height: 30vh;
+  color: blueviolet !important;
+  background-color: white;
+}
+
+#input__focus {
+  border: none !important;
+}
+
 .search__box {
   display: flex;
   justify-content: space-between;
   height: 21px;
   width: 200px;
+  padding-right: 3px;
+  align-items: center;
 }
 
 .search__input {
@@ -41,7 +60,7 @@
 }
 
 .search__button {
-  height: 100%;
+  height: 80%;
   width: 10%;
   border-radius: 50%;
   background-color: rgb(71, 0, 138);
@@ -99,4 +118,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.customOverlay {
+  background: rgba(36, 123, 160, 0);
+}
+.customModal {
+  background: green;
+  color: white;
+  max-width: 500px;
+  width: 100%;
+}
+
+.customOverlay2 {
+  background: rgba(36, 123, 160, 0);
+}
+.customModal2 {
+  background: red;
+  color: white;
+  max-width: 500px;
+  width: 100%;
 }

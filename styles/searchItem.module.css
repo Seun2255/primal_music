@@ -1,20 +1,21 @@
 .outer {
   width: 100%;
   height: 24;
-  background-color: blueviolet;
-  border-bottom: 2px solid white;
+  background-color: white;
+  border-bottom: 2px solid blueviolet;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
+  cursor: pointer;
 }
 
 .song {
   font-size: 18px;
-  color: white;
+  color: blueviolet;
 }
 
 .artist {
   font-size: 14px;
-  color: white;
+  color: blueviolet;
 }
