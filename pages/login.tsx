@@ -1,12 +1,19 @@
 import type { NextPage } from "next";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { loginUser } from "../firebase/clientApp";
 import style from "../styles/login&signup.module.css";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const login: NextPage = (props) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    router.prefetch("/main");
+  }, []);
 
   return (
     <div className={style.outer}>
@@ -30,13 +37,18 @@ const login: NextPage = (props) => {
         <button
           type="button"
           className={style.button}
-          onClick={() => loginUser(email, password)}
+          onClick={() => {
+            loginUser(email, password).then(() => router.push("/main"));
+          }}
         >
           Login
         </button>
       </div>
       <p className={style.no__account}>
-        Don't have an account? <span className={style.signup}>Sign up</span>
+        Don't have an account?{" "}
+        <Link href={"/signup"}>
+          <span className={style.signup}>Sign up</span>
+        </Link>
       </p>
     </div>
   );

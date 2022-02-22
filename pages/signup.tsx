@@ -1,10 +1,11 @@
 import type { NextPage } from "next";
 import React from "react";
 import style from "../styles/login&signup.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addUser } from "../firebase/clientApp";
 import { TextField, ThemeProvider } from "@mui/material";
 import theme from "../components/theme";
+import { useRouter } from "next/router";
 
 const signup: NextPage = (props) => {
   const [password1, setPassword1] = useState("");
@@ -12,11 +13,16 @@ const signup: NextPage = (props) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [warning, setWarning] = useState(false);
+  const router = useRouter();
 
   const confirmPassword = () => {
     if (password1 !== password2) setWarning(true);
     else setWarning(false);
   };
+
+  useEffect(() => {
+    router.prefetch("/main");
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -65,7 +71,11 @@ const signup: NextPage = (props) => {
           <button
             type="button"
             className={style.button}
-            onClick={() => addUser(email, password2, username)}
+            onClick={() =>
+              addUser(email, password2, username).then(() =>
+                router.push("/main")
+              )
+            }
           >
             Sign up
           </button>
