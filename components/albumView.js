@@ -7,20 +7,7 @@ import cross from "../assets/cross.png";
 import { async } from "@firebase/util";
 
 function AlbumView(props) {
-  const { album, closeModal } = props;
-  const [tracks, setTracks] = useState([]);
-
-  const getTracks = async () => {
-    const url =
-      "https://sleepy-everglades-42596.herokuapp.com/" + album.tracklist;
-    const trackData = await fetch(url);
-    const trackJson = await trackData.json();
-    return trackJson.data;
-  };
-
-  const initialize = async () => {
-    setTracks(await getTracks());
-  };
+  const { album, closeModal, tracks } = props;
 
   useEffect(() => {
     initialize();
