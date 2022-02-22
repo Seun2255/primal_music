@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "../styles/navbar.module.css";
 import { Grid, Button, Typography } from "@mui/material";
 import { Menu, Close } from "@mui/icons-material";
 import Link from "next/link";
 
-//const mediaQuery = window.matchMedia("(max-width: 600px)");
-// const menuIcon = mediaQuery.matches;
-const menuIcon = false;
-
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuIcon, setMenuIcon] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 600px)");
+    setMenuIcon(mediaQuery.matches);
+  }, []);
 
   return (
     <div className={style.body}>
@@ -21,11 +23,13 @@ function Navbar() {
       >
         <Grid item>
           <Typography
-            variant={menuIcon ? "h4" : "h2"}
+            variant={menuIcon ? "h5" : "h2"}
             style={{
               color: "#8a2be2",
               fontWeight: 600,
               marginLeft: 2,
+              position: "absolute",
+              top: 3,
             }}
           >
             Primal Music
@@ -66,40 +70,43 @@ function Navbar() {
             >
               About
             </Button>
-            <Button
-              style={{
-                color: "#8a2be2",
-                fontSize: 24,
-                fontWeight: 600,
-              }}
-            >
-              Github repo
-            </Button>
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: "#8a2be2",
-                fontSize: 24,
-                fontWeight: 600,
-              }}
-              href="mailto:seunemmanuel2255@gmail.com"
-            >
-              Login
-            </Button>
+            <Link href="/login">
+              <Button
+                style={{
+                  color: "#8a2be2",
+                  fontSize: 24,
+                  fontWeight: 600,
+                }}
+              >
+                Github
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#8a2be2",
+                  fontSize: 24,
+                  fontWeight: 600,
+                }}
+              >
+                Login
+              </Button>
+            </Link>
           </Grid>
         )}
       </Grid>
       {menuOpen && (
         <div className={style.down__menu}>
           <p className={style.menu__obj}>
-            <a href="#about">About</a>
+            <Link href="">About</Link>
           </p>
           <hr className={style.divide} />
           <p className={style.menu__obj}>
-            <a href="#portfolio">Github repo</a>
+            <Link href="https://github.com/Seun2255/primal_music">Github</Link>
           </p>
           <hr className={style.divide} />
-          <Link href="\login">
+          <Link href="/login">
             <Button
               variant="contained"
               style={{
@@ -109,7 +116,6 @@ function Navbar() {
                 marginBottom: 20,
                 marginTop: 15,
               }}
-              href="mailto:seunemmanuel2255@gmail.com"
             >
               Login
             </Button>
