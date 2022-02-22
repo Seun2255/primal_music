@@ -7,17 +7,14 @@ import style from "../styles/main.module.css";
 import SongView from "../components/songView";
 import AlbumView from "../components/albumView";
 import Item from "../components/item";
-import { db } from "../firebase/clientApp";
-import { doc, getDoc } from "firebase/firestore";
-import SearchBar from "../components/searchBar";
 import deezerAPI from "./api/deezerAPI";
 import search from "../assets/search.png";
 import { Bars } from "react-loader-spinner";
 import SearchItem from "../components/searchItem";
-
-var currentUser: User | null;
-var signedIn: boolean;
-var name: string | null;
+import { Search } from "@mui/icons-material";
+import { NextRouter, useRouter } from "next/router";
+import { addToPlaylist, getPlayList, getUser } from "../firebase/clientApp";
+import { Modal } from "react-responsive-modal";
 
 const auth = getAuth(app);
 
@@ -25,22 +22,69 @@ const Main: NextPage = (props) => {
   const [loader, setLoader] = useState(false);
   const [songs, setSongs] = useState([]);
   const [albums, setAlbums] = useState([]);
-  const [playlist, setPlaylist] = useState([]);
+  const [playlist, setPlaylist]: any = useState([]);
   const [showsong, setShowsong] = useState(false);
   const [showalbum, setShowalbum] = useState(false);
   const [selectedSong, setSelectedSong] = useState({});
   const [selectedAlbum, setSelectedAlbum] = useState({});
+  const [albumTracks, setAlbumTracks] = useState([]);
   const [input, setInput] = useState("");
   const [result, setResult] = useState(false);
   const [data, setData]: any = useState([]);
+  const [user, setUser]: any = useState("Person");
+  const [open, setOpen] = useState(false);
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
+  const [open2, setOpen2] = useState(false);
+  const onOpenModal2 = () => setOpen2(true);
+  const onCloseModal2 = () => setOpen2(false);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const person = getUser(user.email);
+      setUser(person);
+      setPlaylist(getPlayList(user.email));
+    } else {
+    }
+  });
+
+  const router: NextRouter = useRouter();
 
   const displaySong = (song: any) => {
     setSelectedSong(song);
     setShowsong(true);
   };
 
+  const getTracks = async (album: any) => {
+    const url =
+      "https://sleepy-everglades-42596.herokuapp.com/" + album.tracklist;
+    const trackData = await fetch(url);
+    const trackJson = await trackData.json();
+    setAlbumTracks(trackJson.data);
+  };
+
+  const addSong = (song: any) => {
+    addToPlaylist(user.email, song)
+      .then(() => {
+        var list = playlist;
+        list.push(song);
+        setPlaylist(list);
+        onOpenModal();
+        setTimeout(() => {
+          onCloseModal();
+        }, 2000);
+      })
+      .catch(() => {
+        onOpenModal2();
+        setTimeout(() => {
+          onCloseModal2();
+        }, 2000);
+      });
+  };
+
   const displayAlbum = (album: any) => {
     setSelectedAlbum(album);
+    getTracks(selectedAlbum);
     setShowalbum(true);
   };
 
@@ -63,27 +107,19 @@ const Main: NextPage = (props) => {
     getData();
   }, []);
 
-  const [user, setUser]: any = useState("Person");
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log("Logged in");
-      currentUser = user;
-      setUser(currentUser.email);
-      signedIn = true;
-    } else {
-      console.log("Not logged in");
-      signedIn = false;
-    }
-  });
-
   return (
     <div className={style.outer}>
       <div className={style.navbar}>
-        <p className={style.org}>Primal Tech</p>
-        <div className={style.search__container}>
+        <p className={style.org}>{user.name}</p>
+        <div
+          className={style.search__container}
+          id={result ? style.focus : "null"}
+          onBlur={() => setResult(false)}
+        >
           <div className={style.search__box}>
             <input
               className={style.search__input}
+              id={result ? style.input__focus : "null"}
               onChange={(e) => {
                 setInput(e.target.value);
                 if (input === "") {
@@ -101,15 +137,19 @@ const Main: NextPage = (props) => {
                 }
               }}
             >
-              <Image src={search} layout="fill" />
+              <Search
+                sx={{ color: "white" }}
+                style={{ width: "100%", height: "100%" }}
+              />
             </button>
           </div>
-          {false && (
+          {result && (
             <div className={style.search__results}>
               {data.map((item: any) => {
                 <SearchItem
                   song={item.title_short}
                   artist={item.artist.name}
+                  onClick={() => displaySong(item)}
                 />;
               })}
             </div>
@@ -159,39 +199,64 @@ const Main: NextPage = (props) => {
             )}
           </div>
         </div>
-        {playlist && (
-          <div className={style.list}>
-            <p className={style.list__name}>My Playlist</p>
-            <div className={style.items__container}>
-              {loader ? (
-                <div className={style.loader}>
-                  <Bars color="#8a2be2" height={140} width={140} />
-                </div>
-              ) : (
-                playlist.map((item: any, id: any) => {
-                  return (
-                    <Item
-                      name={item.title}
-                      cover={item.cover_big}
-                      key={id}
-                      onClick={() => displayAlbum(item)}
-                    />
-                  );
-                })
-              )}
-            </div>
+        <div className={style.list}>
+          <p className={style.list__name}>My Playlist</p>
+          <div className={style.items__container}>
+            {loader ? (
+              <div className={style.loader}>
+                <Bars color="#8a2be2" height={140} width={140} />
+              </div>
+            ) : (
+              playlist.map((item: any, id: any) => {
+                return (
+                  <Item
+                    name={item.title}
+                    cover={item.cover_big}
+                    key={id}
+                    onClick={() => displayAlbum(item)}
+                  />
+                );
+              })
+            )}
           </div>
-        )}
+        </div>
       </div>
       {showsong && (
-        <SongView song={selectedSong} closeModal={() => setShowsong(false)} />
+        <SongView
+          song={selectedSong}
+          closeModal={() => setShowsong(false)}
+          addSong={() => addSong(selectedSong)}
+        />
       )}
       {showalbum && (
         <AlbumView
           album={selectedAlbum}
+          tracks={albumTracks}
           closeModal={() => setShowalbum(false)}
         />
       )}
+      <Modal
+        open={open}
+        onClose={onCloseModal}
+        center
+        classNames={{
+          overlay: style.customOverlay,
+          modal: style.customModal,
+        }}
+      >
+        <h2>Song Added succesfully</h2>
+      </Modal>
+      <Modal
+        open={open}
+        onClose={onCloseModal2}
+        center
+        classNames={{
+          overlay: style.customOverlay2,
+          modal: style.customModal2,
+        }}
+      >
+        <h2>Error: song not added</h2>
+      </Modal>
     </div>
   );
 };
