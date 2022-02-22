@@ -5,10 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { useRouter } from "next/router";
-
-const router = useRouter();
+import { doc, setDoc, addDoc, getDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAo1lwHYJ1SZoLMPq5j6kFjQ9KjBO2bf6s",
@@ -33,7 +30,6 @@ export const addUser = async (
       // Signed in
       const user = userCredential.user;
       console.log(user);
-      router.push("/main");
       setDoc(doc(db, "users", email), {
         name: username,
         email: email,
@@ -49,31 +45,45 @@ export const addUser = async (
     });
 };
 
-export const loginUser = (email: string, password: string) => {
+export const loginUser = async (email: string, password: string) => {
   const auth = getAuth(app);
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      console.log("logged in");
-      console.log(user);
-      router.push("/main");
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log("failed");
       alert("Login failed, please try again");
     });
 };
 
 export const addToPlaylist = async (email: string, track: {}) => {
-  setDoc(doc(db, "playlists", email), {
+  addDoc(collection(db, "playlists"), {
     track: track,
     email: email,
   })
     .then(() => console.log("playlist added"))
     .catch(() => console.log("Failed"));
+};
+
+export const getPlayList = async (email: any) => {
+  const data = await getDoc(doc(db, "playlists", email));
+  if (data.exists()) {
+    return data.data;
+  } else {
+    return [];
+  }
+};
+
+export const getUser = async (email: any) => {
+  const data = await getDoc(doc(db, "users", email));
+  if (data.exists()) {
+    return data.data;
+  } else {
+    return null;
+  }
 };
 
 export default app;
