@@ -15,6 +15,8 @@ import { Search } from "@mui/icons-material";
 import { NextRouter, useRouter } from "next/router";
 import { addToPlaylist, getPlayList, getUser } from "../firebase/clientApp";
 import { Modal } from "react-responsive-modal";
+import { Button } from "@mui/material";
+import { Share } from "@mui/icons-material";
 
 const auth = getAuth(app);
 
@@ -31,24 +33,17 @@ const Main: NextPage = (props) => {
   const [input, setInput] = useState("");
   const [result, setResult] = useState(false);
   const [data, setData]: any = useState([]);
-  const [user, setUser]: any = useState("Person");
   const [open, setOpen] = useState(false);
+  const [resultLoader, setResultLoader] = useState(false);
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
   const [open2, setOpen2] = useState(false);
   const onOpenModal2 = () => setOpen2(true);
   const onCloseModal2 = () => setOpen2(false);
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const person = getUser(user.email);
-      setUser(person);
-      setPlaylist(getPlayList(user.email));
-    } else {
-    }
-  });
-
+  const [name, setName] = useState("Primal Tech");
   const router: NextRouter = useRouter();
+
+  console.log(process.env.NEXT_PUBLIC_EMAIL_SERVICE_ID);
 
   const displaySong = (song: any) => {
     setSelectedSong(song);
@@ -63,12 +58,10 @@ const Main: NextPage = (props) => {
     setAlbumTracks(trackJson.data);
   };
 
-  const addSong = (song: any) => {
-    addToPlaylist(user.email, song)
+  const addSong = (songs: any) => {
+    addToPlaylist(router.query.user, songs)
       .then(() => {
-        var list = playlist;
-        list.push(song);
-        setPlaylist(list);
+        setPlaylist({ tracks: songs });
         onOpenModal();
         setTimeout(() => {
           onCloseModal();
@@ -103,14 +96,24 @@ const Main: NextPage = (props) => {
     return results;
   };
 
+  const starter = async () => {
+    const person: any = await getUser(router.query.user);
+    if (person) {
+      setName(person.name);
+    }
+    var playList = await getPlayList(router.query.user);
+    playlist == [] ? setPlaylist([]) : setPlaylist(playList);
+  };
+
   useEffect(() => {
     getData();
+    starter();
   }, []);
 
   return (
     <div className={style.outer}>
       <div className={style.navbar}>
-        <p className={style.org}>{user.name}</p>
+        <p className={style.org}>{name}</p>
         <div
           className={style.search__container}
           id={result ? style.focus : "null"}
@@ -127,33 +130,52 @@ const Main: NextPage = (props) => {
                 }
               }}
             />
-            <button
-              className={style.search__button}
-              onClick={() => {
-                setData(queryDeezer());
+            <Button
+              startIcon={
+                <Search sx={{ color: "white" }} style={{ height: "100%" }} />
+              }
+              variant="contained"
+              style={{
+                backgroundColor: "rgb(71, 0, 138)",
+                color: "white",
+                height: "90%",
+              }}
+              size="small"
+              onClick={async () => {
                 if (input !== "") {
-                  console.log(data);
                   setResult(true);
+                  setResultLoader(true);
+                  await setData(await queryDeezer());
+                  setResultLoader(false);
                 }
               }}
             >
-              <Search
-                sx={{ color: "white" }}
-                style={{ width: "100%", height: "100%" }}
-              />
-            </button>
+              Search
+            </Button>
           </div>
-          {result && (
-            <div className={style.search__results}>
-              {data.map((item: any) => {
-                <SearchItem
-                  song={item.title_short}
-                  artist={item.artist.name}
-                  onClick={() => displaySong(item)}
-                />;
-              })}
-            </div>
-          )}
+          {result &&
+            (loader ? (
+              <div className={style.loader}>
+                <Bars color="#8a2be2" height={140} width={140} />
+              </div>
+            ) : (
+              <div
+                className={style.search__results}
+                onBlur={() => setResult(false)}
+              >
+                {data.map((item: any) => {
+                  return (
+                    <SearchItem
+                      song={item.title_short}
+                      artist={item.artist.name}
+                      onClick={() => {
+                        displaySong(item);
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            ))}
         </div>
       </div>
       <div className={style.song__section}>
@@ -193,6 +215,7 @@ const Main: NextPage = (props) => {
                     cover={item.cover_big}
                     key={id}
                     onClick={() => displayAlbum(item)}
+                    displaySong={displaySong}
                   />
                 );
               })
@@ -200,20 +223,40 @@ const Main: NextPage = (props) => {
           </div>
         </div>
         <div className={style.list}>
-          <p className={style.list__name}>My Playlist</p>
+          <div className={style.playlist__share}>
+            <p className={style.list__name}>My Playlist</p>
+            <Button
+              startIcon={
+                <Share style={{ color: "white", backgroundColor: "#8a2be2" }} />
+              }
+              variant="contained"
+              style={{
+                backgroundColor: "#8a2be2",
+                color: "white",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                // page == "home" ? onOpenModal() : addSong();
+              }}
+            >
+              Share
+            </Button>
+          </div>
           <div className={style.items__container}>
             {loader ? (
               <div className={style.loader}>
                 <Bars color="#8a2be2" height={140} width={140} />
               </div>
+            ) : playlist.length === 0 ? (
+              <div className={style.nothing}>There's Nothing here</div>
             ) : (
-              playlist.map((item: any, id: any) => {
+              playlist.tracks.map((item: any, id: any) => {
                 return (
                   <Item
-                    name={item.title}
-                    cover={item.cover_big}
+                    name={item.title_short}
+                    cover={item.album.cover_big}
                     key={id}
-                    onClick={() => displayAlbum(item)}
+                    onClick={() => displaySong(item)}
                   />
                 );
               })
@@ -225,7 +268,11 @@ const Main: NextPage = (props) => {
         <SongView
           song={selectedSong}
           closeModal={() => setShowsong(false)}
-          addSong={() => addSong(selectedSong)}
+          addSong={() => {
+            var tempList = playlist.tracks;
+            tempList.push(selectedSong);
+            addSong(tempList);
+          }}
         />
       )}
       {showalbum && (
@@ -233,6 +280,12 @@ const Main: NextPage = (props) => {
           album={selectedAlbum}
           tracks={albumTracks}
           closeModal={() => setShowalbum(false)}
+          displaySong={displaySong}
+          addSong={() => {
+            var tempList = playlist.tracks;
+            tempList.push(selectedSong);
+            addSong(tempList);
+          }}
         />
       )}
       <Modal
@@ -247,7 +300,7 @@ const Main: NextPage = (props) => {
         <h2>Song Added succesfully</h2>
       </Modal>
       <Modal
-        open={open}
+        open={open2}
         onClose={onCloseModal2}
         center
         classNames={{
