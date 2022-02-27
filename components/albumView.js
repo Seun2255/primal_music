@@ -5,13 +5,11 @@ import heart from "../assets/heart.png";
 import redheart from "../assets/redheart.png";
 import cross from "../assets/cross.png";
 import { async } from "@firebase/util";
+import { AddSharp } from "@mui/icons-material";
+import { Button } from "@mui/material";
 
 function AlbumView(props) {
-  const { album, closeModal, tracks } = props;
-
-  useEffect(() => {
-    initialize();
-  }, []);
+  const { album, closeModal, tracks, displaySong, addSong } = props;
 
   return (
     <div className={style.modal}>
@@ -34,9 +32,12 @@ function AlbumView(props) {
         </div>
         <div className={style.bottom}>
           {tracks.map((item, id) => {
-            console.log(item);
             return (
-              <div className={style.container} key={id}>
+              <div
+                className={style.container}
+                key={id}
+                onClick={() => displaySong(item)}
+              >
                 <div className={style.details}>
                   <div className={style.song__pic}>
                     <Image layout="fill" src={album.cover_big} />
@@ -46,9 +47,23 @@ function AlbumView(props) {
                     <p className={style.artist}>{item.artist.name}</p>
                   </div>
                 </div>
-                <div className={style.like}>
-                  <Image width={20} height={20} src={heart} />
-                </div>
+                <Button
+                  startIcon={
+                    <AddSharp
+                      style={{ color: "#8a2be2", backgroundColor: "white" }}
+                    />
+                  }
+                  variant="contained"
+                  style={{
+                    backgroundColor: "white",
+                    color: "#8a2be2",
+                  }}
+                  onClick={() => {
+                    addSong();
+                  }}
+                >
+                  Add to Playlist
+                </Button>
               </div>
             );
           })}
