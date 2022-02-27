@@ -38,7 +38,12 @@ const login: NextPage = (props) => {
           type="button"
           className={style.button}
           onClick={() => {
-            loginUser(email, password).then(() => router.push("/main"));
+            loginUser(email, password).then(() =>
+              router.push({
+                pathname: "/main",
+                query: { user: email },
+              })
+            );
           }}
         >
           Login
