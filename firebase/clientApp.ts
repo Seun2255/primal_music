@@ -30,6 +30,7 @@ export const addUser = async (
       // Signed in
       const user = userCredential.user;
       console.log(user);
+
       setDoc(doc(db, "users", email), {
         name: username,
         email: email,
@@ -59,10 +60,9 @@ export const loginUser = async (email: string, password: string) => {
     });
 };
 
-export const addToPlaylist = async (email: string, track: {}) => {
-  addDoc(collection(db, "playlists"), {
-    track: track,
-    email: email,
+export const addToPlaylist = async (email: any, tracks: []) => {
+  setDoc(doc(db, "playlists", email), {
+    tracks: tracks,
   })
     .then(() => console.log("playlist added"))
     .catch(() => console.log("Failed"));
@@ -71,17 +71,22 @@ export const addToPlaylist = async (email: string, track: {}) => {
 export const getPlayList = async (email: any) => {
   const data = await getDoc(doc(db, "playlists", email));
   if (data.exists()) {
-    return data.data;
+    return data.data();
   } else {
     return [];
   }
 };
 
 export const getUser = async (email: any) => {
-  const data = await getDoc(doc(db, "users", email));
-  if (data.exists()) {
-    return data.data;
+  const docRef = doc(db, "users", email);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("sucesful");
+    console.log(docSnap.data());
+    return docSnap.data();
   } else {
+    console.log("Unsuccesful");
     return null;
   }
 };
