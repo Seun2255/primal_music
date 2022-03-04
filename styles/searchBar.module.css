@@ -83,3 +83,13 @@
 #input__focus {
   border: none !important;
 }
+
+@media (max-width: 600px) {
+  .search__input {
+    width: 75%;
+  }
+
+  .search__button {
+    width: 20%;
+  }
+}

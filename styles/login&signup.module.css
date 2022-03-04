@@ -162,6 +162,7 @@
     width: 6em;
     color: white;
     border-color: white;
+    cursor: pointer;
   }
 
   .no__account {

@@ -19,6 +19,13 @@
   width: 40%;
 }
 
+.grid__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-right: 10px;
+}
+
 .navItems {
   width: 100%;
   display: flex;
