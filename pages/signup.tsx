@@ -7,7 +7,7 @@ import { TextField, ThemeProvider } from "@mui/material";
 import theme from "../components/theme";
 import { useRouter } from "next/router";
 
-const signup: NextPage = (props) => {
+const Signup: NextPage = (props) => {
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [email, setEmail] = useState("");
@@ -85,4 +85,4 @@ const signup: NextPage = (props) => {
   );
 };
 
-export default signup;
+export default Signup;

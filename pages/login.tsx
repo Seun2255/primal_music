@@ -6,7 +6,7 @@ import style from "../styles/login&signup.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const login: NextPage = (props) => {
+const Login: NextPage = (props) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
@@ -50,7 +50,7 @@ const login: NextPage = (props) => {
         </button>
       </div>
       <p className={style.no__account}>
-        Don't have an account?{" "}
+        Don&#39;t have an account?{" "}
         <Link href={"/signup"}>
           <span className={style.signup}>Sign up</span>
         </Link>
@@ -59,4 +59,4 @@ const login: NextPage = (props) => {
   );
 };
 
-export default login;
+export default Login;

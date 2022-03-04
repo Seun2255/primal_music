@@ -1,22 +1,21 @@
 import type { NextPage } from "next";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged, signOut, User } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import app from "../firebase/clientApp";
 import style from "../styles/main.module.css";
 import SongView from "../components/songView";
 import AlbumView from "../components/albumView";
+import ShareView from "../components/shareView";
 import Item from "../components/item";
 import deezerAPI from "./api/deezerAPI";
-import search from "../assets/search.png";
 import { Bars } from "react-loader-spinner";
 import SearchItem from "../components/searchItem";
-import { Search } from "@mui/icons-material";
 import { NextRouter, useRouter } from "next/router";
 import { addToPlaylist, getPlayList, getUser } from "../firebase/clientApp";
 import { Modal } from "react-responsive-modal";
 import { Button } from "@mui/material";
-import { Share } from "@mui/icons-material";
+import Share from "@mui/icons-material/Share";
+import Search from "@mui/icons-material/Search";
 
 const auth = getAuth(app);
 
@@ -27,6 +26,7 @@ const Main: NextPage = (props) => {
   const [playlist, setPlaylist]: any = useState([]);
   const [showsong, setShowsong] = useState(false);
   const [showalbum, setShowalbum] = useState(false);
+  const [showshare, setShowshare] = useState(false);
   const [selectedSong, setSelectedSong] = useState({});
   const [selectedAlbum, setSelectedAlbum] = useState({});
   const [albumTracks, setAlbumTracks] = useState([]);
@@ -41,12 +41,18 @@ const Main: NextPage = (props) => {
   const onOpenModal2 = () => setOpen2(true);
   const onCloseModal2 = () => setOpen2(false);
   const [name, setName] = useState("Primal Tech");
+  const [phone, setPhone] = useState(false);
   const router: NextRouter = useRouter();
 
-  console.log(process.env.NEXT_PUBLIC_EMAIL_SERVICE_ID);
+  // console.log(process.env.NEXT_PUBLIC_EMAIL_SERVICE_ID);
 
-  const displaySong = (song: any) => {
-    setSelectedSong(song);
+  const displaySong = (song: any, cover: any = false) => {
+    var tempSong = song;
+    if (cover) {
+      tempSong.album = {};
+      tempSong.album.cover_big = cover;
+    }
+    setSelectedSong(tempSong);
     setShowsong(true);
   };
 
@@ -75,9 +81,9 @@ const Main: NextPage = (props) => {
       });
   };
 
-  const displayAlbum = (album: any) => {
+  const displayAlbum = async (album: any) => {
     setSelectedAlbum(album);
-    getTracks(selectedAlbum);
+    await getTracks(album);
     setShowalbum(true);
   };
 
@@ -108,20 +114,23 @@ const Main: NextPage = (props) => {
   useEffect(() => {
     getData();
     starter();
+    const mediaQuery = window.matchMedia("(max-width: 600px)");
+    setPhone(!mediaQuery.matches);
   }, []);
 
   return (
     <div className={style.outer}>
-      <div className={style.navbar}>
+      <div className={style.navbar} id={phone ? "null" : style.center}>
         <p className={style.org}>{name}</p>
         <div
           className={style.search__container}
           id={result ? style.focus : "null"}
-          onBlur={() => setResult(false)}
         >
           <div className={style.search__box}>
             <input
-              className={style.search__input}
+              className={
+                phone ? style.search__input : style.search__input__phone
+              }
               id={result ? style.input__focus : "null"}
               onChange={(e) => {
                 setInput(e.target.value);
@@ -138,11 +147,12 @@ const Main: NextPage = (props) => {
               style={{
                 backgroundColor: "rgb(71, 0, 138)",
                 color: "white",
-                height: "90%",
+                height: "100%",
               }}
               size="small"
               onClick={async () => {
-                if (input !== "") {
+                if (result) setResult(false);
+                else if (input !== "") {
                   setResult(true);
                   setResultLoader(true);
                   await setData(await queryDeezer());
@@ -150,22 +160,20 @@ const Main: NextPage = (props) => {
                 }
               }}
             >
-              Search
+              {result ? "Close" : "Search"}
             </Button>
           </div>
           {result &&
-            (loader ? (
+            (resultLoader ? (
               <div className={style.loader}>
                 <Bars color="#8a2be2" height={140} width={140} />
               </div>
             ) : (
-              <div
-                className={style.search__results}
-                onBlur={() => setResult(false)}
-              >
-                {data.map((item: any) => {
+              <div className={style.search__results}>
+                {data.map((item: any, id: any) => {
                   return (
                     <SearchItem
+                      key={id}
                       song={item.title_short}
                       artist={item.artist.name}
                       onClick={() => {
@@ -183,7 +191,7 @@ const Main: NextPage = (props) => {
           <p className={style.list__name}>Top Tracks</p>
           <div className={style.items__container}>
             {loader ? (
-              <div className={style.loader}>
+              <div className={style.main__loader}>
                 <Bars color="#8a2be2" height={140} width={140} />
               </div>
             ) : (
@@ -204,7 +212,7 @@ const Main: NextPage = (props) => {
           <p className={style.list__name}>Top Albums</p>
           <div className={style.items__container}>
             {loader ? (
-              <div className={style.loader}>
+              <div className={style.main__loader}>
                 <Bars color="#8a2be2" height={140} width={140} />
               </div>
             ) : (
@@ -235,20 +243,18 @@ const Main: NextPage = (props) => {
                 color: "white",
                 cursor: "pointer",
               }}
-              onClick={() => {
-                // page == "home" ? onOpenModal() : addSong();
-              }}
+              onClick={() => setShowshare(true)}
             >
               Share
             </Button>
           </div>
           <div className={style.items__container}>
             {loader ? (
-              <div className={style.loader}>
+              <div className={style.main__loader}>
                 <Bars color="#8a2be2" height={140} width={140} />
               </div>
             ) : playlist.length === 0 ? (
-              <div className={style.nothing}>There's Nothing here</div>
+              <div className={style.nothing}>There&#39;s Nothing here</div>
             ) : (
               playlist.tracks.map((item: any, id: any) => {
                 return (
@@ -286,6 +292,13 @@ const Main: NextPage = (props) => {
             tempList.push(selectedSong);
             addSong(tempList);
           }}
+        />
+      )}
+      {showshare && (
+        <ShareView
+          playlist={playlist}
+          closeModal={() => setShowshare(false)}
+          name={name}
         />
       )}
       <Modal

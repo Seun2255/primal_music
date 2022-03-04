@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "../components/navbar.js";
@@ -11,6 +11,8 @@ import SearchBar from "../components/searchBar";
 import { Bars } from "react-loader-spinner";
 
 const Home: NextPage = (props) => {
+  const [result, setResult] = useState(false);
+
   return (
     <ThemeProvider theme={theme}>
       <div className={style.outer}>
@@ -18,8 +20,8 @@ const Home: NextPage = (props) => {
         <div className={style.top}>
           <div className={style.intro}>
             Looking for new songs to add too your playlist? Just search here,
-            I've used deezer's extensive database of songs to ensure you find
-            what you're looking for and more.{" "}
+            I&#39;ve used deezer&#39;s extensive database of songs to ensure you
+            find what you&#39;re looking for and more.{" "}
             <span id={style.hidden__text}>
               all you have to do is search for songs, listen to a short preview
               to check if you like it, add to your local Primal playlist and
@@ -68,8 +70,8 @@ const Home: NextPage = (props) => {
         </div>
         <div className={style.footer}>
           <p className={style.footer__title}>Try it out</p>
-          <div className={style.search__test}>
-            <SearchBar />
+          <div className={style.search__test} onBlur={() => setResult(false)}>
+            <SearchBar result={result} setResult={setResult} />
           </div>
           <p className={style.logo}>Primal Tech</p>
         </div>
