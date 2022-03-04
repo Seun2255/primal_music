@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import style from "../styles/searchBar.module.css";
-import { Search } from "@mui/icons-material";
+import Search from "@mui/icons-material/Search";
 import SearchItem from "./searchItem";
 import deezerAPI from "../pages/api/deezerAPI";
 import SongView from "./songView";
 import { Bars } from "react-loader-spinner";
 
 function SearchBar(props) {
+  const { result, setResult } = props;
+
   const [input, setInput] = useState("");
-  const [result, setResult] = useState(false);
   const [data, setData] = useState(["test", 5]);
   const [showsong, setShowsong] = useState(false);
   const [selectedSong, setSelectedSong] = useState({});
@@ -42,6 +43,7 @@ function SearchBar(props) {
               setResult(true);
               setData(await deezerAPI.search(input));
               setLoader(false);
+              console.log("Clicked");
             }
           }}
         >
@@ -59,9 +61,12 @@ function SearchBar(props) {
         ) : (
           <div
             className={style.search__results}
-            onBlur={() => setResult(false)}
+            onBlur={() => {
+              setResult(false);
+              console.log("not working");
+            }}
           >
-            {data.map((item) => {
+            {data.map((item, id) => {
               return (
                 <SearchItem
                   song={item.title_short}
@@ -69,6 +74,7 @@ function SearchBar(props) {
                   onClick={() => {
                     displaySong(item);
                   }}
+                  key={id}
                 />
               );
             })}

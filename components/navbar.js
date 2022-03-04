@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import style from "../styles/navbar.module.css";
 import { Grid, Button, Typography } from "@mui/material";
-import { Menu, Close } from "@mui/icons-material";
+import Close from "@mui/icons-material/Close";
+import Menu from "@mui/icons-material/Menu";
 import Link from "next/link";
 
 function Navbar() {
@@ -54,23 +55,8 @@ function Navbar() {
             </div>
           )
         ) : (
-          <Grid
-            item
-            justifyContent={"space-between"}
-            alignItems={"flex-end"}
-            direction={"row"}
-            style={{ marginRight: 10 }}
-          >
-            <Button
-              style={{
-                color: "#8a2be2",
-                fontSize: 24,
-                fontWeight: 600,
-              }}
-            >
-              About
-            </Button>
-            <Link href="/login">
+          <Grid item>
+            <div className={style.grid__container}>
               <Button
                 style={{
                   color: "#8a2be2",
@@ -78,21 +64,32 @@ function Navbar() {
                   fontWeight: 600,
                 }}
               >
-                Github
+                About
               </Button>
-            </Link>
-            <Link href="/login">
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: "#8a2be2",
-                  fontSize: 24,
-                  fontWeight: 600,
-                }}
-              >
-                Login
-              </Button>
-            </Link>
+              <Link href="/login">
+                <Button
+                  style={{
+                    color: "#8a2be2",
+                    fontSize: 24,
+                    fontWeight: 600,
+                  }}
+                >
+                  Github
+                </Button>
+              </Link>
+              <Link href="/login">
+                <Button
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#8a2be2",
+                    fontSize: 24,
+                    fontWeight: 600,
+                  }}
+                >
+                  Login
+                </Button>
+              </Link>
+            </div>
           </Grid>
         )}
       </Grid>

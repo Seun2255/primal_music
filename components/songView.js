@@ -3,15 +3,17 @@ import style from "../styles/songView.module.css";
 import Image from "next/image";
 import cross from "../assets/cross.png";
 import { Button, ButtonGroup } from "@mui/material";
-import { AddSharp, PlayArrow, Pause } from "@mui/icons-material";
+import AddSharp from "@mui/icons-material/AddSharp";
+import PlayArrow from "@mui/icons-material/PlayArrow";
+import Pause from "@mui/icons-material/Pause";
 import { Modal } from "react-responsive-modal";
 
 function SongView(props) {
   const { song, closeModal, addSong, page } = props;
+  console.log(song);
   var whole = Math.trunc(song.duration / 60);
   var deci = song.duration % 60;
   if (deci < 10) deci = "0" + deci;
-  console.log(deci);
   const duration = whole + ":" + deci;
   const [isPlaying, setIsPlaying] = useState(false);
   const [open, setOpen] = useState(false);
@@ -28,6 +30,11 @@ function SongView(props) {
 
     setIsPlaying(!isPlaying);
   };
+
+  useEffect(() => {
+    document.getElementById("myAudio").play();
+    setIsPlaying(true);
+  }, []);
 
   return (
     <div className={style.modal}>
@@ -52,7 +59,7 @@ function SongView(props) {
         </div>
         <div className={style.top}>
           <div className={style.album__cover}>
-            <Image src={song.album.cover_big} layout="fill" />
+            <Image src={song.album.cover_big} layout="fill" alt="album cover" />
           </div>
           <p className={style.album__name}>{song.title_short}</p>
           <ButtonGroup size="small">

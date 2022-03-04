@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import style from "../styles/albumView.module.css";
 import Image from "next/image";
-import heart from "../assets/heart.png";
-import redheart from "../assets/redheart.png";
 import cross from "../assets/cross.png";
 import { async } from "@firebase/util";
-import { AddSharp } from "@mui/icons-material";
+import AddSharp from "@mui/icons-material/AddSharp";
 import { Button } from "@mui/material";
 
 function AlbumView(props) {
@@ -26,7 +24,7 @@ function AlbumView(props) {
         </div>
         <div className={style.top}>
           <div className={style.album__cover}>
-            <Image src={album.cover_big} layout="fill" />
+            <Image src={album.cover_big} layout="fill" alt="album cover" />
           </div>
           <p className={style.album__name}>{album.title}</p>
         </div>
@@ -36,11 +34,15 @@ function AlbumView(props) {
               <div
                 className={style.container}
                 key={id}
-                onClick={() => displaySong(item)}
+                onClick={() => displaySong(item, album.cover_big)}
               >
                 <div className={style.details}>
                   <div className={style.song__pic}>
-                    <Image layout="fill" src={album.cover_big} />
+                    <Image
+                      layout="fill"
+                      src={album.cover_big}
+                      alt="album cover"
+                    />
                   </div>
                   <div className={style.info}>
                     <p className={style.name}>{item.title_short}</p>
@@ -62,7 +64,7 @@ function AlbumView(props) {
                     addSong();
                   }}
                 >
-                  Add to Playlist
+                  Add
                 </Button>
               </div>
             );
