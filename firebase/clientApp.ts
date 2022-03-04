@@ -29,14 +29,11 @@ export const addUser = async (
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      console.log(user);
 
       setDoc(doc(db, "users", email), {
         name: username,
         email: email,
-      })
-        .then(() => console.log("user added"))
-        .catch(() => console.log("Failed"));
+      });
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -82,11 +79,8 @@ export const getUser = async (email: any) => {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    console.log("sucesful");
-    console.log(docSnap.data());
     return docSnap.data();
   } else {
-    console.log("Unsuccesful");
     return null;
   }
 };
