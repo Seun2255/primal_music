@@ -4,7 +4,7 @@ import Image from "next/image";
 import cross from "../assets/cross.png";
 import { async } from "@firebase/util";
 import AddSharp from "@mui/icons-material/AddSharp";
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 
 function AlbumView(props) {
   const { album, closeModal, tracks, displaySong, addSong } = props;

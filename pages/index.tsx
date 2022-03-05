@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "../components/navbar.js";
 import style from "../styles/home.module.css";
-import { ThemeProvider, Button } from "@mui/material";
+import Button from "@mui/material/Button";
+import { ThemeProvider } from "@mui/material/styles";
 import theme from "../components/theme";
 import temp from "../assets/temp-pic.jpeg";
 import SearchBar from "../components/searchBar";
@@ -37,9 +38,8 @@ const Home: NextPage = (props) => {
         <div className={style.info}>
           <div className={style.info__box}>
             <p className={style.info__text}>
-              some random text to make sure there is something there while i
-              write the code, you know, for testing purposes. I really like
-              japanese girls. I love sex too.
+              Create an account to acces the major features, adding songs to
+              your personal playlist and sharing them with freinds through mail.
             </p>
             <div className={style.info__pic}>
               <Image src={temp} alt="search song" layout="fill" />
@@ -48,9 +48,8 @@ const Home: NextPage = (props) => {
           <hr className={style.divide} />
           <div className={style.info__box}>
             <p className={style.info__text}>
-              some random text to make sure there is something there while i
-              write the code, you know, for testing purposes. I really like
-              japanese girls. I love sex too.
+              find the top tracks and albums from the day gotten directly from
+              deezer/ Search for songs and create a personal playlist
             </p>
             <div className={style.info__pic}>
               <Image src={temp} alt="create playlist" layout="fill" />
@@ -59,9 +58,8 @@ const Home: NextPage = (props) => {
           <hr className={style.divide} />
           <div className={style.info__box}>
             <p className={style.info__text}>
-              some random text to make sure there is something there while i
-              write the code, you know, for testing purposes. I really like
-              japanese girls. I love sex too.
+              View a song or an albums details, add songs to your primal
+              playlist and even listen to a short preview of a song.
             </p>
             <div className={style.info__pic}>
               <Image src={temp} alt="share playlist" layout="fill" />

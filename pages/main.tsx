@@ -13,7 +13,7 @@ import SearchItem from "../components/searchItem";
 import { NextRouter, useRouter } from "next/router";
 import { addToPlaylist, getPlayList, getUser } from "../firebase/clientApp";
 import { Modal } from "react-responsive-modal";
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 import Share from "@mui/icons-material/Share";
 import Search from "@mui/icons-material/Search";
 
