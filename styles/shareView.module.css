@@ -20,6 +20,7 @@
   border: 3px solid blueviolet;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .close__button {
@@ -53,17 +54,19 @@
   display: flex;
   justify-content: center;
   margin-bottom: 5px;
+  z-index: 3;
 }
 
 .container {
   width: 100%;
-  border: 3px solid blueviolet;
-  border-radius: 10px;
+  height: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   flex-grow: 1;
+  position: absolute;
 }
 
 .item {
@@ -86,6 +89,7 @@
   padding: 4px;
   font-size: 20px;
   height: 2em;
+  margin-bottom: 4px;
 }
 
 .item__input:focus {
