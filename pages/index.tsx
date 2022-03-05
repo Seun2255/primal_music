@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "../components/navbar.js";
-import style from "../styles/home.module.css";
+import style from "../styles/Home.module.css";
 import Button from "@mui/material/Button";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../components/theme";
