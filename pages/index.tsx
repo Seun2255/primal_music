@@ -7,13 +7,13 @@ import style from "../styles/Home.module.css";
 import Button from "@mui/material/Button";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../components/theme";
-import temp from "../assets/temp-pic.jpeg";
+import first from "../assets/first.jpeg";
+import second from "../assets/second.jpeg";
+import third from "../assets/third.jpeg";
 import SearchBar from "../components/searchBar";
 import { Bars } from "react-loader-spinner";
 
 const Home: NextPage = (props) => {
-  const [result, setResult] = useState(false);
-
   return (
     <ThemeProvider theme={theme}>
       <div className={style.outer}>
@@ -42,7 +42,7 @@ const Home: NextPage = (props) => {
               your personal playlist and sharing them with freinds through mail.
             </p>
             <div className={style.info__pic}>
-              <Image src={temp} alt="search song" layout="fill" />
+              <Image src={first} alt="search song" layout="fill" />
             </div>
           </div>
           <hr className={style.divide} />
@@ -52,7 +52,7 @@ const Home: NextPage = (props) => {
               deezer/ Search for songs and create a personal playlist
             </p>
             <div className={style.info__pic}>
-              <Image src={temp} alt="create playlist" layout="fill" />
+              <Image src={second} alt="create playlist" layout="fill" />
             </div>
           </div>
           <hr className={style.divide} />
@@ -62,14 +62,14 @@ const Home: NextPage = (props) => {
               playlist and even listen to a short preview of a song.
             </p>
             <div className={style.info__pic}>
-              <Image src={temp} alt="share playlist" layout="fill" />
+              <Image src={third} alt="share playlist" layout="fill" />
             </div>
           </div>
         </div>
         <div className={style.footer}>
           <p className={style.footer__title}>Try it out</p>
-          <div className={style.search__test} onBlur={() => setResult(false)}>
-            <SearchBar result={result} setResult={setResult} />
+          <div className={style.search__test}>
+            <SearchBar />
           </div>
           <p className={style.logo}>Primal Tech</p>
         </div>

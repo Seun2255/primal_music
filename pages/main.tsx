@@ -44,8 +44,6 @@ const Main: NextPage = (props) => {
   const [phone, setPhone] = useState(false);
   const router: NextRouter = useRouter();
 
-  // console.log(process.env.NEXT_PUBLIC_EMAIL_SERVICE_ID);
-
   const displaySong = (song: any, cover: any = false) => {
     var tempSong = song;
     if (cover) {

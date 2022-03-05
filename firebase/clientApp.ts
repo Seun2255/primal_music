@@ -38,7 +38,6 @@ export const addUser = async (
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
       alert("sign up failed, please try again");
     });
 };
@@ -60,9 +59,7 @@ export const loginUser = async (email: string, password: string) => {
 export const addToPlaylist = async (email: any, tracks: []) => {
   setDoc(doc(db, "playlists", email), {
     tracks: tracks,
-  })
-    .then(() => console.log("playlist added"))
-    .catch(() => console.log("Failed"));
+  });
 };
 
 export const getPlayList = async (email: any) => {

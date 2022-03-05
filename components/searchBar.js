@@ -5,10 +5,10 @@ import SearchItem from "./searchItem";
 import deezerAPI from "../pages/api/deezerAPI";
 import SongView from "./songView";
 import { Bars } from "react-loader-spinner";
+import Close from "@mui/icons-material/Close";
 
 function SearchBar(props) {
-  const { result, setResult } = props;
-
+  const [result, setResult] = useState(false);
   const [input, setInput] = useState("");
   const [data, setData] = useState(["test", 5]);
   const [showsong, setShowsong] = useState(false);
@@ -38,19 +38,26 @@ function SearchBar(props) {
         <button
           className={style.search__button}
           onClick={async () => {
-            if (input !== "") {
+            if (result) setResult(false);
+            else if (input !== "") {
               setLoader(true);
               setResult(true);
               setData(await deezerAPI.search(input));
               setLoader(false);
-              console.log("Clicked");
             }
           }}
         >
-          <Search
-            sx={{ color: "white" }}
-            style={{ width: "100%", height: "100%" }}
-          />
+          {result ? (
+            <Close
+              sx={{ color: "white" }}
+              style={{ width: "100%", height: "100%" }}
+            />
+          ) : (
+            <Search
+              sx={{ color: "white" }}
+              style={{ width: "100%", height: "100%" }}
+            />
+          )}
         </button>
       </div>
       {result &&
@@ -59,13 +66,7 @@ function SearchBar(props) {
             <Bars color="#8a2be2" height={140} width={140} />
           </div>
         ) : (
-          <div
-            className={style.search__results}
-            onBlur={() => {
-              setResult(false);
-              console.log("not working");
-            }}
-          >
+          <div className={style.search__results}>
             {data.map((item, id) => {
               return (
                 <SearchItem

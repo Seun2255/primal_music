@@ -8,7 +8,6 @@ function SearchItem(props) {
     <div
       className={style.outer}
       onClick={() => {
-        console.log("Should be working");
         onClick();
       }}
     >

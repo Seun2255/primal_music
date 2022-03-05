@@ -5,7 +5,6 @@ const search = async (query) => {
   const url = urls.search + query;
   const response = await fetch(url);
   const results = await response.json();
-  console.log(results.data);
   return results.data;
 };
 

@@ -11,7 +11,6 @@ import { Modal } from "react-responsive-modal";
 
 function SongView(props) {
   const { song, closeModal, addSong, page } = props;
-  console.log(song);
   var whole = Math.trunc(song.duration / 60);
   var deci = song.duration % 60;
   if (deci < 10) deci = "0" + deci;
