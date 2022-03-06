@@ -64,6 +64,9 @@
   font-size: 18px;
   color: blueviolet;
   margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
 .bottom {
