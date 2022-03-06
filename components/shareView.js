@@ -17,7 +17,7 @@ function ShareView(props) {
   var message = ``;
   playlist.tracks.map((item) => {
     var text = `${item.title_short} - ${item.artist.name}
-    
+    --------------------------
     `;
     message += text;
   });
