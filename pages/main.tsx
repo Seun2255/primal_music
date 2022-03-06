@@ -118,7 +118,7 @@ const Main: NextPage = (props) => {
 
   return (
     <div className={style.outer}>
-      <div className={style.navbar} id={phone ? "null" : style.center}>
+      <div className={style.navbar}>
         <p className={style.org}>{name}</p>
         <div
           className={style.search__container}
@@ -126,9 +126,7 @@ const Main: NextPage = (props) => {
         >
           <div className={style.search__box}>
             <input
-              className={
-                phone ? style.search__input : style.search__input__phone
-              }
+              className={style.search__input}
               id={result ? style.input__focus : "null"}
               onChange={(e) => {
                 setInput(e.target.value);

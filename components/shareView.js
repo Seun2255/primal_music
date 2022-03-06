@@ -14,9 +14,10 @@ function ShareView(props) {
   const [mode, setMode] = useState("Whatsapp");
   const [email, setEmail] = useState("");
 
-  var message;
+  var message = ``;
   playlist.tracks.map((item) => {
-    var text = item.title_short + " - " + item.artist.name + "\n";
+    var text = `${item.title_short} - ${item.artist.name}
+    `;
     message += text;
   });
 
