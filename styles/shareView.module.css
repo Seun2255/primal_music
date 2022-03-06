@@ -116,3 +116,11 @@
   max-width: 500px;
   width: 100%;
 }
+
+@media (max-width: 600px) {
+  .outer {
+    width: 80%;
+    height: 80%;
+    border-top-left-radius: 0%;
+  }
+}
