@@ -13,11 +13,28 @@ const Signup: NextPage = (props) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [warning, setWarning] = useState(false);
+  const [warning2, setWarning2] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
   const router = useRouter();
 
   const confirmPassword = () => {
-    if (password1 !== password2) setWarning(true);
-    else setWarning(false);
+    if (password1 !== password2) {
+      setWarning2(true);
+      setConfirmed(false);
+    } else {
+      setWarning2(false);
+      setConfirmed(true);
+    }
+  };
+
+  const confirmLength = () => {
+    if (password1.length < 6) {
+      setConfirmed(false);
+      setWarning(true);
+    } else {
+      setConfirmed(true);
+      setWarning(false);
+    }
   };
 
   useEffect(() => {
@@ -53,7 +70,13 @@ const Signup: NextPage = (props) => {
               type={"password"}
               placeholder="********"
               onChange={(e) => setPassword1(e.target.value)}
+              onBlur={() => confirmLength()}
             />
+            {warning && (
+              <p className={style.warning}>
+                Password must be at least 6 letters
+              </p>
+            )}
           </div>
           <div className={style.item}>
             <p className={style.item__name}>confirm Password</p>
@@ -64,18 +87,29 @@ const Signup: NextPage = (props) => {
               onChange={(e) => setPassword2(e.target.value)}
               onBlur={() => confirmPassword()}
             />
-            {warning && (
-              <p className={style.warning}>password does not match</p>
+            {warning2 && (
+              <p className={style.warning}>Password does not match</p>
             )}
           </div>
           <button
             type="button"
             className={style.button}
-            onClick={() =>
-              addUser(email, password2, username).then(() =>
-                router.push("/main")
-              )
-            }
+            onClick={() => {
+              if (
+                confirmed &&
+                password1 != "" &&
+                password2 != "" &&
+                email != "" &&
+                username != ""
+              ) {
+                addUser(email, password2, username).then(() =>
+                  router.push({
+                    pathname: "/main",
+                    query: { user: email },
+                  })
+                );
+              }
+            }}
           >
             Sign up
           </button>

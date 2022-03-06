@@ -34,10 +34,15 @@ export const addUser = async (
         name: username,
         email: email,
       });
+
+      setDoc(doc(db, "playlists", email), {
+        tracks: [],
+      });
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
       alert("sign up failed, please try again");
     });
 };
